@@ -1,12 +1,12 @@
-FROM python:3.14
+FROM python:3.12
 
 WORKDIR /app
 
-COPY ./req_win.txt /app/req_win.txt
+COPY ./requirements-cpu.txt /app/requirements.txt
 
 RUN pip install torch --index-url https://download.pytorch.org/whl/cpu
 
-RUN pip install --no-cache-dir --upgrade -r /app/req_win.txt
+RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
 COPY . /app
 

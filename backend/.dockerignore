@@ -1,5 +1,7 @@
-models/
 *_data/
-metrics/
 __pycache__/
 *.tar
+*.zip
+
+step_input/
+osc_input/

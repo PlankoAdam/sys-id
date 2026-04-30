@@ -1,0 +1,16 @@
+services:
+  backend:
+    image: sysid/backend
+    build: ./backend
+    volumes:
+      - ./backend/step_input/models:/app/step_input/models
+      - ./backend/osc_input/models:/app/osc_input/models
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+  frontend:
+    image: sysid/frontend
+    build: ./frontend
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
