@@ -1,0 +1,53 @@
+@import 'tailwindcss';
+
+@layer components {
+  input[type='range'] {
+    @apply w-full h-2 bg-gray-400 rounded-lg appearance-none cursor-pointer accent-blue-600;
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    @apply appearance-none w-5 h-5 rounded-full bg-blue-600 cursor-pointer;
+  }
+
+  input[type='range']::-moz-range-thumb {
+    @apply w-5 h-5 rounded-full bg-blue-600 cursor-pointer border-0;
+  }
+
+  input[type='range']::-moz-range-track {
+    @apply bg-transparent border-0;
+  }
+
+  select {
+    @apply p-1 me-1 border-b-2 border-blue-600 cursor-pointer;
+  }
+
+  input[type='number'] {
+    @apply border-b-2 border-blue-600 w-12 p-1 text-sm;
+  }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  input[type='text'] {
+    @apply p-1 me-1 border-b-2 border-blue-600;
+  }
+
+  label {
+    @apply italic font-semibold text-lg text-gray-600 select-none;
+  }
+}
+
+.arrow-btn {
+  @apply hover:bg-blue-200 cursor-pointer text-blue-600 px-1 rounded-sm font-bold font-mono text-3xl;
+}
+
+.contbox {
+  @apply ps-4 border-s-2 border-gray-300;
+}
