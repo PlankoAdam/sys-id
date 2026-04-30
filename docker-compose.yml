@@ -2,6 +2,7 @@ services:
   backend:
     image: sysid/backend
     build: ./backend
+    command: ["fastapi", "dev", "server.py", "--port", "8000"]
     volumes:
       - ./backend/step_input/models:/app/step_input/models
       - ./backend/osc_input/models:/app/osc_input/models
