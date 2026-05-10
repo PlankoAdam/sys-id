@@ -30,13 +30,8 @@ def rand_o1_tf() -> tuple[TransferFunction, np.ndarray]:
         - TransferFunction object
         - Parameters: [K, T]
     """
-    K_MIN = 0.1
-    K_MAX = 5.0
-    T_MIN = 0.1
-    T_MAX = 5.0
-    
-    K = np.random.uniform(K_MIN, K_MAX)    
-    T = np.random.uniform(T_MIN, T_MAX)
+    K = np.random.uniform(O1_K_MIN, O1_K_MAX)    
+    T = np.random.uniform(O1_T_MIN, O1_T_MAX)
     
     tf = o1_tf_from_params(K, T)
     params = np.array([K, T], dtype=float)
@@ -49,10 +44,7 @@ def rand_o1astat_tf() -> tuple[TransferFunction, np.ndarray]:
         - TransferFunction object
         - Parameters: [K]
     """
-    K_MIN = 0.1
-    K_MAX = 5.0
-    
-    K = np.random.uniform(K_MIN, K_MAX)
+    K = np.random.uniform(O1ASTAT_K_MIN, O1ASTAT_K_MAX)
     
     tf = o1astat_tf_from_params(K)
     params = np.array([K], dtype=float)
@@ -68,16 +60,9 @@ def rand_o2aper_tf() -> tuple[TransferFunction, np.ndarray]:
         - TransferFunction object
         - Parameters: [K, T1, T2] in canonical form
     """
-    K_MIN = 0.1
-    K_MAX = 5.0
-    T1_MIN = 0.1
-    T1_MAX = 5.0
-    T2_MIN = 0.1
-    T2_MAX = 5.0
-    
-    K = np.random.uniform(K_MIN, K_MAX)    
-    T1 = np.random.uniform(T1_MIN, T1_MAX)
-    T2 = np.random.uniform(T2_MIN, T2_MAX)
+    K =  np.random.uniform(O2APER_K_MIN,  O2APER_K_MAX)    
+    T1 = np.random.uniform(O2APER_T1_MIN, O2APER_T1_MAX)
+    T2 = np.random.uniform(O2APER_T2_MIN, O2APER_T2_MAX)
 
     tf = o2aper_tf_from_params(K, T1, T2)
     params = np.array([K, T1, T2], dtype=float)
@@ -93,16 +78,9 @@ def rand_o2per_tf() -> tuple[TransferFunction, np.ndarray]:
         - TransferFunction object
         - Parameters: [K, T, b] in canonical form
     """
-    K_MIN = 0.1
-    K_MAX = 5.0
-    T_MIN = 0.1
-    T_MAX = 5.0
-    B_MIN = 0.1
-    B_MAX = 0.9
-    
-    K = np.random.uniform(K_MIN, K_MAX)
-    T = np.random.uniform(T_MIN, T_MAX)
-    b = np.random.uniform(B_MIN, B_MAX)
+    K = np.random.uniform(O2PER_K_MIN, O2PER_K_MAX)
+    T = np.random.uniform(O2PER_T_MIN, O2PER_T_MAX)
+    b = np.random.uniform(O2PER_B_MIN, O2PER_B_MAX)
     
     tf = o2per_tf_from_params(K, T, b)
     params = np.array([K, T, b], dtype=float)
@@ -115,10 +93,7 @@ def rand_o2astat_tf() -> tuple[TransferFunction, np.ndarray]:
         - TransferFunction object
         - Parameters: [K, T]
     """
-    K_MIN = 0.1
-    K_MAX = 5.0
-    
-    K = np.random.uniform(K_MIN, K_MAX)    
+    K = np.random.uniform(O2ASTAT_K_MIN, O2ASTAT_K_MAX)    
     
     tf = o2astat_tf_from_params(K)
     params = np.array([K], dtype=float)
@@ -131,13 +106,8 @@ def rand_o2astat_t_tf() -> tuple[TransferFunction, np.ndarray]:
         - TransferFunction object
         - Parameters: [K, T]
     """
-    K_MIN = 0.1
-    K_MAX = 5.0
-    T_MIN = 0.1
-    T_MAX = 5.0
-    
-    K = np.random.uniform(K_MIN, K_MAX)    
-    T = np.random.uniform(T_MIN, T_MAX)
+    K = np.random.uniform(O2ASTATT_K_MIN, O2ASTATT_K_MAX)    
+    T = np.random.uniform(O2ASTATT_T_MIN, O2ASTATT_T_MAX)
     
     tf = o2astat_t_tf_from_params(K, T)
     params = np.array([K, T], dtype=float)
