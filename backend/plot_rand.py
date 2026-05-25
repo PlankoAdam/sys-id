@@ -2,8 +2,8 @@ from src.core.types import TFType, System
 from matplotlib import pyplot as plt
 
 def comp():
-    m=13
-    t=TFType.ORD1
+    m=15
+    t=TFType.ORD2_ASTAT
     s0:System = System.get_random_sample(t, idx=(3*m+0))
     s1:System = System.get_random_sample(t, idx=(3*m+1))
     s2:System = System.get_random_sample(t, idx=(3*m+2))
@@ -36,5 +36,5 @@ def comp_osc():
 if __name__ == "__main__":
     # sys:System = System.get_random_sample(TFType.ORD2_APER, idx=2)
     # sys.plot()
-    comp_osc()
+    comp()
     # comp()

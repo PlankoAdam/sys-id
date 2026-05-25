@@ -12,10 +12,9 @@ METRICS_DIR = "metrics"
 DATA_DIR = "real_data"
 
 STEP_TIME_START = 0.0
-STEP_TIME_END = 50.0
 TIME_POINTS = 200
 
-STEP_TIME_END_MAX = 100.0
+STEP_TIME_END_MAX = 1000.0
 STEP_TIME_END_MIN = 5.0
 
 NOISE_STD = 0.05   # relative noise level

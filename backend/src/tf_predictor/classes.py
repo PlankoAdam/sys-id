@@ -95,31 +95,20 @@ class CustomLoss(nn.Module):
         )
 
     def forward(self, pred, target, t_end):
-        # loss = self.base_loss(pred, target)
-        # params_loss = torch.abs(pred - target) / (torch.abs(target).clamp(min=1e-6)) # Relative error for params
-        eps = torch.abs(target).mean(dim=0, keepdim=True).clamp(min=1e-3)  # per-param scale from batch
-        params_loss = torch.abs(pred - target) / eps
+        params_loss = torch.abs(
+            torch.log(pred.clamp(min=1e-6)) - torch.log(target.clamp(min=1e-6))
+        )
 
         # custom computation per prediction/target pair
         t = self.t.unsqueeze(0) * t_end.unsqueeze(1)
         sr_pred = step_response_of_type(self.tftype, pred, t)
         sr_target = step_response_of_type(self.tftype, target, t)
 
-
-        # time_weights = torch.exp(-2 * self.t / self.t[-1])  # (T,) decaying weights
-        # time_weights = time_weights / time_weights.sum()     # normalize
-        
-        # sr_max = torch.abs(sr_target).max(dim=1, keepdim=True).values
-        # penalty = torch.sum(torch.abs(sr_pred - sr_target) / sr_max, dim=1)
-
-        sr_loss = torch.mean(torch.abs(sr_pred - sr_target) / (torch.abs(sr_target).clamp(min=1e-6)), dim=1) # Point-wise relative error
-        # penalty = torch.tanh(penalty / 100) * self.penalty_mult
+        sr_max = torch.abs(sr_target).max(dim=1, keepdim=True).values.clamp(min=1e-6)
+        sr_loss = torch.mean(torch.abs(sr_pred - sr_target) / sr_max, dim=1)
         sr_loss = sr_loss * self.penalty_mult
         sr_loss = sr_loss.unsqueeze(1).expand_as(params_loss)
-        # print(penalty)
-        # input()
 
-        # loss = loss * (1 + penalty)
         loss = params_loss + sr_loss
         
         # Check for NaN and report which sample caused it
@@ -130,6 +119,7 @@ class CustomLoss(nn.Module):
             print(f"  pred range: [{pred.min():.3e}, {pred.max():.3e}]")
             print(f"  target range: [{target.min():.3e}, {target.max():.3e}]")
             print(f"  penalty range: [{sr_loss.min():.3e}, {sr_loss.max():.3e}]")
+            # input()
 
         # apply final reduction
         if self.reduction == 'mean':

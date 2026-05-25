@@ -147,4 +147,4 @@ def m4():
 
 if __name__ == "__main__":
     # plot_noise_comp(tftype=TFType.ORD2_PER, idx=5)
-    plot_single(osc=True)
+    plot_single(osc=False)

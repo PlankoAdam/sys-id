@@ -18,7 +18,7 @@ class TFTypeDataset(Dataset):
         self.X = np.vstack(X_list)
         self.Y = np.concatenate(Y_list)
 
-        # self.X = self.X / (np.max(np.abs(self.X), axis=1, keepdims=True) + 1e-8)
+        self.X = self.X / (np.max(np.abs(self.X), axis=1, keepdims=True) + 1e-8)
 
         self.X = torch.tensor(self.X, dtype=torch.float32)
         self.Y = torch.tensor(self.Y, dtype=torch.long)

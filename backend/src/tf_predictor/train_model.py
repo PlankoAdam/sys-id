@@ -46,6 +46,7 @@ def train(train_dataset_dir: str, val_dataset_dir: str, model_save_path: str, me
     model = TFRegressor(input_dim=train_dataset.X_step.shape[1], output_dim=train_dataset.Y.shape[1], tftype=tftype).to(ctx)
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
     criterion = CustomLoss(tftype=tftype).to(ctx) if tftype else nn.L1Loss().to(ctx)
+    torch.autograd.set_detect_anomaly(True)
 
     train_losses, val_losses = [], []
 
@@ -64,6 +65,9 @@ def train(train_dataset_dir: str, val_dataset_dir: str, model_save_path: str, me
             optimizer.zero_grad()
             preds = model(X_step, X_Tmax)
             loss = criterion(preds, Y, X_Tmax)
+            # if torch.isnan(loss):
+            #     optimizer.zero_grad()
+            #     continue
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             optimizer.step()

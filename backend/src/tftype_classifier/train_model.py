@@ -77,6 +77,7 @@ def train(epochs: int = 50, batch_size: int = 32, osc: bool = False):
             logits = model(X)
             loss = criterion(logits, Y)
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             optimizer.step()
 
             train_loss_sum += loss.detach()                     # stays on GPU

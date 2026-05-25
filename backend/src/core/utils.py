@@ -189,9 +189,8 @@ def o2astat_t_tf_from_params(K: float, T: float) -> TransferFunction:
 
 # Book equation no. 5.4
 def step_response_o1(params, t):
-    K = params[:,0:1]
-    T1 = params[:,1:2]
-    # t = t.unsqueeze(0)
+    K = torch.clamp(params[:,0:1], min=1e-6)
+    T1 = torch.clamp(params[:,1:2], min=1e-6)
 
     exp_term = torch.exp(-t/T1)
 
@@ -200,49 +199,43 @@ def step_response_o1(params, t):
 
 # Book equation no. 5.42
 def step_response_o1astat(params, t):
-    K = params[:,0:1]
-    # t = t.unsqueeze(0)
+    K = torch.clamp(params[:,0:1], min=1e-6)
 
     y = K*t
     return y
 
 # Book equation no. 5.13
 def step_response_o2aper(params, t):
-    K = params[:,0:1]
-    T1 = params[:,1:2]
-    T2 = params[:,2:3]
-    # t = t.unsqueeze(0)
+    K = torch.clamp(params[:,0:1], min=1e-6)
+    T1 = torch.clamp(params[:,1:2], min=1e-6)
+    T2 = torch.clamp(params[:,2:3], min=1e-6)
 
-    # term_1 = (T1*torch.exp(-t/torch.clamp(T1, min=1e-6))) / torch.clamp(T1-T2, min=1e-6)
-    # term_2 = (T2*torch.exp(-t/torch.clamp(T2, min=1e-6))) / torch.clamp(T1-T2, min=1e-6)
-    term_1 = (T1*torch.exp(-t/torch.clamp(T1, min=1e-6))) / T1-T2
-    term_2 = (T2*torch.exp(-t/torch.clamp(T2, min=1e-6))) / T1-T2
-
+    term_1 = (T1*torch.exp(-t/T1)) / T1-T2
+    term_2 = (T2*torch.exp(-t/T2)) / T1-T2
+    
     y = K * (1-term_1+term_2)
     return y
 
 # Book equation no. 5.25
 def step_response_o2per(params, t):
-    K = params[:,0:1]
-    T1 = params[:,1:2]
-    b = params[:,2:3]
-    # t = t.unsqueeze(0)
-
-    T1 = torch.clamp(T1, min=1e-6)
+    K = torch.clamp(params[:,0:1], min=1e-6)
+    T1 = torch.clamp(params[:,1:2], min=1e-6)
+    b = torch.clamp(params[:,2:3], min=1e-6)
+    
     wn = 1.0 / T1
-    wd = wn * torch.sqrt(1 - b**2)
-    phi = torch.atan(torch.sqrt(1 - b**2) / b)
+    b2_term = torch.clamp(1 - b**2, min=1e-6)
+    wd = wn * torch.sqrt(b2_term)
+    phi = torch.atan(torch.sqrt(b2_term) / b)
 
     exp_term = torch.exp(-b * wn * t)
     sin_term = torch.sin(wd * t + phi)
 
-    y = K * (1 - (1/torch.sqrt(1-b**2)) * exp_term * sin_term)
+    y = K * (1 - (1/torch.sqrt(b2_term)) * exp_term * sin_term)
     # print(f"o2per output: {y}")
     return y
 
 def step_response_o2astat(params, t):
-    K = params[:,0:1]
-    # t = t.unsqueeze(0)
+    K = torch.clamp(params[:,0:1], min=1e-6)
 
     y = K*torch.square(t)/2
     # print(f"o2astat output: {y}")
@@ -250,11 +243,9 @@ def step_response_o2astat(params, t):
 
 # Book equation no. 5.46
 def step_response_o2astat_t(params, t):
-    K = params[:,0:1]
-    T1 = params[:,1:2]
-    # t = t.unsqueeze(0)
-
-    T1 = torch.clamp(T1, min=1e-6)
+    K = torch.clamp(params[:,0:1], min=1e-6)
+    T1 = torch.clamp(params[:,1:2], min=1e-6)
+    
     exp_term = T1 * torch.exp(-t/T1)
 
     y = K*(t-T1+exp_term)
