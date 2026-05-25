@@ -213,11 +213,11 @@ def generate_dataset(num_samples: int, tf_type: TFType, parent_dir: str, osc: bo
 
         # Save response with 3 levels of noise
         for mult in [0.0, 0.5, 1.0]:
-            step = add_noise(step, NOISE_STD * mult)
-            step = smooth(step)
+            step_noise = add_noise(step, NOISE_STD * mult)
+            step_smooth = smooth(step_noise)
 
             # Inputs
-            X_step.append(step)
+            X_step.append(step_smooth)
 
             # Labels (tf parameters)
             Y_params.append(tf_params)
