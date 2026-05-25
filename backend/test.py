@@ -378,4 +378,5 @@ def m22():
     plt.show()
 
 if __name__ == "__main__":
+    save_n_rand(50, osc=False)
     save_n_rand(50, osc=True)
